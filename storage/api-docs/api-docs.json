@@ -1,0 +1,140 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Currency API",
+        "description": "API для работы с валютами",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/currency/currencies": {
+            "get": {
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Get list of currencies",
+                "description": "Returns a list of all currencies",
+                "operationId": "getCurrenciesList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/api/currency/currencies/{code}": {
+            "get": {
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Get a specific currency",
+                "description": "Returns a single currency based on the code",
+                "operationId": "getCurrencyByCode",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "in": "path",
+                        "description": "Currency code",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Currency not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/api/currency/convert": {
+            "post": {
+                "tags": [
+                    "Currencies"
+                ],
+                "summary": "Convert currency",
+                "description": "Convert from one currency to another",
+                "operationId": "convertCurrency",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "from": {
+                                        "type": "string",
+                                        "example": "USD"
+                                    },
+                                    "to": {
+                                        "type": "string",
+                                        "example": "EUR"
+                                    },
+                                    "amount": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 100
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "converted_amount": {
+                                            "type": "number",
+                                            "example": 85.1234
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Invalid currency code"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Currencies",
+            "description": "Currencies"
+        }
+    ]
+}
